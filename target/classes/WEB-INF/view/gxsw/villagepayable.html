@@ -1,0 +1,43 @@
+@layout("/common/layout.html",{title:'管理'}){
+<link rel="stylesheet" href="${ctxPath}/static/gxsw/css/same.css">
+<link rel="stylesheet" href="${ctxPath}/static/gxsw/css/index.css">
+<input type="hidden" value="${town}" id="town">
+<input id="year" type="hidden" value="${year}">
+<input id="allMoney" type="hidden" value="${allMoney}">
+<input id="allPeople" type="hidden" value="${allPeople}">
+<input id="lastyearallPeople" type="hidden" value="${lastyearallPeople}">
+<input id="lastyearallMoney" type="hidden" value="${lastyearallMoney}">
+    <div id="table">
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <button type="button" class="layui-btn" id="return" style="float: right;margin-right: 30px;"><i class="layui-icon">&#xe65c;</i>返 回</button>
+            </div>
+
+        </form>
+        <div class="table-responsive" style="z-index: 1;">
+            <table id="villageinfoTable" style="min-width:100px;"></table>
+        </div>
+    </div>
+<script src="${ctxPath}/static/gxsw/js/villagepayable.js"></script>
+<style>
+    .textOver{
+        height: 40px;
+        line-height: 40px;
+    }
+    #villageinfoTable tr:hover{
+        color: #1abc9c;
+        cursor: pointer;
+    }
+    #villageinfoTable thead tr:first-child:hover{
+        color: #333333;
+        cursor:auto;
+    }
+    tr td:first-child{
+        text-decoration: underline;
+    }
+    .fixed-table-footer table tbody tr td:first-child{
+        text-decoration:none;
+    }
+</style>
+@}
+

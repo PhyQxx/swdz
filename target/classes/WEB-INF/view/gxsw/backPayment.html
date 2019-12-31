@@ -1,0 +1,37 @@
+@layout("/common/layout.html",{title:'管理'}){
+<link rel="stylesheet" href="${ctxPath}/static/gxsw/css/same.css">
+<link rel="stylesheet" href="${ctxPath}/static/gxsw/css/index.css">
+<div class="container" style="padding:0;width: 100%;background-color:#fff;">
+    <div style="text-align: right;margin: 10px auto; width: 95%;">
+        <div class="layui-form-item">
+            <form class="layui-form" action="" style="text-align: left!important;">
+            <div class="layui-inline" style="margin-bottom: 0">
+                <label class="layui-form-label"  style="width:95px !important;">选择年份:</label>
+                <div class="layui-input-inline">
+                    <select id="sel" name="sel" lay-filter="sel"></select>
+                </div>
+                <button type="button" class="layui-btn" id="submit"><i class="layui-icon">&#xe615;</i>查 询</button>
+            </div>
+            <div class="layui-inline" style="float: right">
+                <button type="button" class="layui-btn layui-btn-sm" id="expertFile"><i class="layui-icon">&#xe601;</i>导出补缴人员数据</button>
+                <button type="button" class="layui-btn layui-btn-sm" id="goBack" style="text-align: right!important;"><i class="layui-icon">&#xe666;</i>返回</button>
+            </div>
+            </form>
+
+
+        </div>
+    </div>
+    <div id="table">
+        <div class="table-responsive" style="z-index: 1;">
+            <table id="infoTable" style="min-width:100px;"></table>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/gxsw/js/backPayment.js"></script>
+<style>
+    .textOver{
+        height: 40px;
+        line-height: 40px;
+    }
+</style>
+@}

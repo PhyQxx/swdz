@@ -1,0 +1,39 @@
+@layout("/common/layout.html",{title:'管理'}){
+<link rel="stylesheet" href="${ctxPath}/static/gxsw/css/same.css">
+<link rel="stylesheet" href="${ctxPath}/static/gxsw/css/index.css">
+<input type="hidden" value="${town}" id="town">
+<input type="hidden" value="${village}" id="village">
+<input type="hidden" value="${year}" id="year">
+<input id="allMoney" type="hidden" value="${allMoney}">
+<input id="allPeople" type="hidden" value="${allPeople}">
+<div class="container" style="padding:0;width: 100%;background-color:#fff;">
+    <div id="table">
+        <form class="layui-form" action="">
+            <div class="layui-form-item" >
+                <button style="float: right;margin-right: 30px;" type="button" class="layui-btn" id="return" ><i class="layui-icon">&#xe65c;</i>返 回</button>
+                <button style="float: right;margin-right: 20px;margin-left: 20px;" type="button" class="layui-btn" id="export"><i class="layui-icon">&#xe601;</i>该村已缴人员导出</button>
+            </div>
+
+        </form>
+        <div class="table-responsive" style="z-index: 1;">
+            <table id="infoTableList" style="min-width:100px;"></table>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/gxsw/js/payable.js"></script>
+<style>
+    .textOver{
+        height: 40px;
+        line-height: 40px;
+    }
+    #infoTableList tr:hover{
+        color: #1abc9c;
+        cursor: pointer;
+    }
+    #infoTableList thead tr:first-child:hover{
+        color: #333333;
+        cursor:auto;
+    }
+</style>
+@}
+

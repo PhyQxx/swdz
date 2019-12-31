@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxdinfo.hussar.gxsw.dao.GxswJcsjInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.jxdinfo.hussar.gxsw.model.GxswJcsjInfo">
+        <id column="identity_card" property="identityCard"/>
+        <result column="taxpayer_name" property="taxpayerName"/>
+        <result column="taxpayer_item" property="taxpayerItem"/>
+        <result column="taxpayer_money" property="taxpayerMoney"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="taxpayer_type" property="taxpayerType"/>
+        <result column="town" property="town"/>
+        <result column="village" property="village"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        identity_card AS identityCard, taxpayer_name AS taxpayerName, taxpayer_item AS taxpayerItem, taxpayer_money AS taxpayerMoney, start_time AS startTime, end_time AS endTime, taxpayer_type AS taxpayerType, town AS town, village AS village
+    </sql>
+
+    <!--批量插入或更新基础数据-->
+    <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="false">
+         REPLACE into gxsw_jcsj_info
+        (identity_card,taxpayer_name,taxpayer_item,taxpayer_money,start_time,end_time,taxpayer_type,town,village)
+
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.identityCard,jdbcType=VARCHAR},#{item.taxpayerName,jdbcType=VARCHAR},
+            #{item.taxpayerItem,jdbcType=VARCHAR},#{item.taxpayerMoney,jdbcType=VARCHAR},
+            #{item.startTime,jdbcType=VARCHAR},#{item.endTime,jdbcType=VARCHAR},
+            #{item.taxpayerType,jdbcType=VARCHAR},#{item.town,jdbcType=VARCHAR},
+            #{item.village,jdbcType=VARCHAR})
+        </foreach>
+        /* ON DUPLICATE KEY UPDATE
+        taxpayer_name=values (taxpayer_name),
+        taxpayer_item=values (taxpayer_item),
+        taxpayer_money=values (taxpayer_money),
+        start_time=values (start_time),
+        end_time=values (end_time),
+        taxpayer_type=values (taxpayer_type),
+        town=values (town),
+        village=values (village)*/
+    </insert>
+
+
+    <select id="getCount" parameterType="map" resultType="int">
+        select
+        count(identity_card)
+        from gxsw_jcsj_info
+        where
+        1=1
+        <if test="town!='' and town!=null ">
+            and town =#{town}
+        </if>
+        <if test="village !='' and village !=null ">
+            and village=#{village}
+        </if>
+        <if test="idcard !='' and idcard !=null ">
+            and identity_card =#{idcard}
+        </if>
+        <if test="username !='' and username !=null ">
+            and taxpayer_name =#{username}
+        </if>
+    </select>
+
+    <select id="getList" parameterType="map" resultType="map">
+        select
+        identity_card,
+        taxpayer_name,
+        taxpayer_item,
+        taxpayer_money,
+        start_time,
+        end_time,
+        taxpayer_type,
+        town,village
+        from
+        gxsw_jcsj_info
+        where 1=1
+        <if test="town !='' and town !=null ">
+            and town =#{town}
+        </if>
+        <if test="village !='' and village !=null ">
+            and village=#{village}
+        </if>
+        <if test="idcard !='' and idcard !=null ">
+            and identity_card =#{idcard}
+        </if>
+        <if test="username !='' and username !=null ">
+            and taxpayer_name =#{username}
+        </if>
+        limit #{startNumber},#{pageSize}
+    </select>
+
+    <select id="getAllTown" resultType="map">
+        select distinct ifnull(town,'')  town from gxsw_jcsj_info
+
+    </select>
+
+    <select id="getAllVillage" parameterType="map" resultType="map">
+        select distinct village from gxsw_jcsj_info where town=#{town}
+    </select>
+</mapper>

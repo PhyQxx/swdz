@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxdinfo.hussar.gxsw.dao.GxswPayableInfoMapper">
+
+  <resultMap id="BaseResultMap" type="com.jxdinfo.hussar.gxsw.model.GxswPayableInfo">
+    <id column="identity_card" jdbcType="VARCHAR" property="identityCard" />
+    <result column="taxpaper_name" jdbcType="VARCHAR" property="taxpayerName" />
+    <result column="taxpayer_item" jdbcType="VARCHAR" property="taxpayerItem"/>
+    <result column="taxpayer_type" jdbcType="VARCHAR" property="taxpayerType" />
+    <result column="taxpayer_town" jdbcType="VARCHAR" property="taxpayerTown" />
+    <result column="taxpayer_village" jdbcType="VARCHAR" property="taxpayerVillage" />
+    <result column="taxpayer_age" jdbcType="VARCHAR" property="taxpayerAge" />
+</resultMap>
+
+  <sql id="Base_Column_List">
+    identity_card, taxpaper_name,taxpayer_item ,taxpayer_type, taxpayer_town, taxpayer_village, taxpayer_age
+  </sql>
+    <!--查询各村的人数-->
+    <select id="getPayableInfoCount" parameterType="map" resultType="int">
+        select
+        count(credit_code)
+        from v_gxsw_payinfo
+        where
+        town =#{town}
+        and village=#{village}
+        and year=#{year}
+    </select>
+
+    <!--查询各村详情-->
+    <select id="getPayableInfoList" parameterType="map" resultType="map">
+        select credit_code,taxpayer_name,specific_item,payment_amount,town,village from v_gxsw_payinfo
+        <where> year = #{year}
+            <if test="town !='' and town !=null ">
+                and town =#{town}
+            </if>
+            <if test="village !='' and village !=null ">
+                and village=#{village}
+            </if>
+        </where>
+        limit #{startNumber},#{pageSize}
+    </select>
+
+    <!--导出一个村的详情-->
+    <select id="getPayableInfoByVillage" parameterType="map" resultType="map">
+        select credit_code,taxpayer_name,specific_item,payment_amount,town,village from v_gxsw_payinfo
+        where
+        year = #{year}
+        and town =#{town}
+        and village=#{village}
+    </select>
+
+    <!--获取已缴镇的个数-->
+    <select id="getTownPayableCount" parameterType="map" resultType="int">
+        select count(DISTINCT(town)) from v_gxsw_payinfo where year = #{year}
+    </select>
+
+    <!--获取2018各镇的统计-->
+    <select id="get2018TownPayableList" parameterType="map" resultType="map">
+        select town,sum(payment_amount) as allmoney ,count(*) as allpeople from v_gxsw_payinfo where year = #{year} GROUP BY town
+        <if test="startNumber !=null and pageSize !=null ">
+            limit #{startNumber},#{pageSize}
+        </if>
+    </select>
+
+    <!--获取大于2018各镇的统计-->
+    <select id="getTownPayableList" parameterType="map" resultType="map">
+            SELECT temp_thisyear.town,allmoney,lastyearallmoney,allpeople,lastyearallpeople FROM(
+            SELECT
+            town,
+            SUM(payment_amount) allmoney,
+            COUNT(*) allpeople
+            FROM
+            v_gxsw_payinfo
+            WHERE
+            `year` = #{year}
+            GROUP BY
+            town
+            ) temp_thisyear LEFT JOIN
+            (
+            SELECT
+            town,
+            SUM(payment_amount) lastyearallmoney,
+            COUNT(*) lastyearallpeople
+            FROM
+            v_gxsw_payinfo
+            WHERE
+            `year` = (#{year}-1)
+            GROUP BY
+            town
+            ) temp_lastyear on temp_thisyear.town=temp_lastyear.town
+        <if test="startNumber !=null and pageSize !=null">
+            limit #{startNumber},#{pageSize}
+        </if>
+    </select>
+
+    <!--获取该镇的村的个数-->
+    <select id="getVillagePayableCount" parameterType="map" resultType="int">
+        select count(DISTINCT(village)) from v_gxsw_payinfo where town = #{town} and year = #{year}
+    </select>
+
+    <!--获取该镇的村的统计-->
+    <select id="getVillagePayableList" parameterType="map" resultType="map">
+    select
+temp_thisyear.village,allmoney,lastyearallmoney,allpeople,lastyearallpeople
+from
+(select village,sum(payment_amount) as allmoney ,count(*) as allpeople from v_gxsw_payinfo
+    where town = #{town} and year = #{year} GROUP BY village) temp_thisyear LEFT JOIN (select village,sum(payment_amount) as lastyearallmoney ,count(*) as lastyearallpeople from v_gxsw_payinfo
+    where town = #{town} and year = #{year}-1 GROUP BY village) temp_lastyear on temp_thisyear.village = temp_lastyear.village
+        <if test="startNumber !=null and pageSize !=null">
+            limit #{startNumber},#{pageSize}
+        </if>
+    </select>
+
+    <!--获取应缴表的所有镇-->
+    <select id="getPayableAllTown" resultType="map">
+        SELECT
+    DISTINCT town
+    FROM
+    v_gxsw_payinfo
+    WHERE
+    year = (#{year}-1)
+    AND credit_code NOT IN ( SELECT credit_code FROM v_gxsw_payinfo WHERE year = #{year} )
+    </select>
+
+    <!--根据镇查询应缴人员信息-->
+    <select id="getPayableInfo" parameterType="map" resultType="map">
+        SELECT
+	credit_code,
+	taxpayer_name,
+	specific_item,
+	town,
+	village
+FROM
+	v_gxsw_payinfo
+WHERE
+	year = (#{year}-1)
+	AND credit_code NOT IN ( SELECT credit_code FROM v_gxsw_payinfo WHERE year = #{year} )
+	AND town = #{town}
+         ORDER BY village
+    </select>
+
+    <!--获取2018冠县的统计-->
+    <select id="firstguanxianInfo" parameterType="map" resultType="map">
+        select sum(payment_amount) as allmoney ,count(*) as allpeople from v_gxsw_payinfo where year = #{year}
+    </select>
+
+    <!--获取大于2018冠县的统计-->
+    <select id="guanxianInfo" parameterType="map" resultType="map">
+        SELECT
+	      *
+        FROM
+	( SELECT sum( payment_amount ) as allmoney, count( * ) as allpeople FROM v_gxsw_payinfo WHERE YEAR = #{year} ) temp_thisyear,
+	( SELECT sum( payment_amount ) as lastyearallmoney, count( * ) as lastyearallpeople FROM v_gxsw_payinfo WHERE YEAR = #{year}-1 ) temp_lastyear
+    </select>
+</mapper>

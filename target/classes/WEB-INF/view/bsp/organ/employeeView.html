@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>layui</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!--外部css和js开始-->
+  @include("/common/plugins.html"){}
+  <!--外部css和js结束-->
+</head>
+<body>
+	<div  class="weadmin-body">
+		<div class="layui-elem-quote">
+			<label>人员信息</label>
+		</div>
+		<div class="layui-form">
+			<table class="layui-table layui-table-r">
+				<colgroup>
+					<col width="150">
+					<col>
+				</colgroup>
+				<tbody>
+				<tr>
+					<td>上级名称：</td>
+					<td> ${orgInfo.PARENTNAME}</td>
+				</tr>
+				<tr>
+					<td>人员编码：</td>
+					<td>${orgInfo.ORGANCODE}</td>
+				</tr>
+				<tr>
+					<td>人员名称：</td>
+					<td> ${orgInfo.ORGANNAME}</td>
+				</tr>
+				<tr>
+					<td>职务：</td>
+					<td> ${orgInfo.LABEL}</td>
+				</tr>
+				<tr>
+					<td>生效日期：</td>
+					<td>${orgInfo.BEGINDATE}</td>
+				</tr>
+				<tr>
+					<td>失效日期：</td>
+					<td>${orgInfo.ENDDATE}</td>
+				</tr>
+
+				<!-- ------------------------------------------人员信息表sys_staff字段------------------------------------------------->
+				<tr>
+					<td>性别：</td>
+					<td>
+						@if(staff.sex == '1'){
+						男
+						@}else if(staff.sex == '2'){
+						女
+						@}else{
+						@}
+					</td>
+				</tr>
+				<tr>
+					<td>出生日期：</td>
+					<td>${staff.birthday}</td>
+				</tr>
+				<tr>
+					<td>身份证号：</td>
+					<td>${staff.idcard}</td>
+				</tr>
+				<tr>
+					<td>家庭住址：</td>
+					<td>${staff.address}</td>
+				</tr>
+				<tr>
+					<td>工号：</td>
+					<td>${staff.workId}</td>
+				</tr>
+				<tr>
+					<td>入职日期：</td>
+					<td>${staff.workDate}</td>
+				</tr>
+				<tr>
+					<td>毕业院校：</td>
+					<td>${staff.graduateSchool}</td>
+				</tr>
+				<tr>
+					<td>毕业日期：</td>
+					<td>${staff.graduateDate}</td>
+				</tr>
+				<!-- ------------------------------------------人员信息表sys_staff字段------------------------------------------------->
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+
+</body>
+<link rel="stylesheet" href="${ctxPath}/static/css/bsp/project_ext.css">
+</html>

@@ -1,0 +1,56 @@
+@layout("/common/layout.html",{title:'管理'}){
+<link rel="stylesheet" href="${ctxPath}/static/gxsw/css/same.css">
+<link rel="stylesheet" href="${ctxPath}/static/gxsw/css/index.css">
+<div class="container" style="padding:0;width: 100%;background-color:#fff;">
+    <div style="text-align: right;margin: 10px auto; width: 95%;">
+        <form class="layui-form" action="" style="text-align: left!important;">
+            <div class="layui-form-item">
+
+                <div class="layui-inline" style="margin-bottom: 0;float: left">
+                    <label class="layui-form-label" style="width:95px !important;">选择年份:</label>
+                    <div class="layui-input-inline" style="width: 100px!important;">
+                        <select id="sel" name="sel" lay-filter="sel"></select>
+
+                    </div>
+                    <label class="layui-form-label" style="width:95px !important;">人员类型:</label>
+                    <div class="layui-input-inline" style="width: 150px!important;">
+                        <select name="interest" lay-filter="specificItem">
+                            <option value=""></option>
+                            @for(specificItem in specificItems){
+                            <option value='${specificItem.item}'>${specificItem.item}</option>
+                            @}
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline" style="margin-bottom: 0;float: left">
+                    <button type="button" class="layui-btn" id="submit"><i class="layui-icon">&#xe615;</i>查 询</button>
+                    <button type="button" class="layui-btn layui-btn-sm" id="backPayment">补缴人员数据</button>
+                    <button type="button" class="layui-btn" id="dzBtn"><i class="layui-icon">&#xe716;</i>对账
+                    </button>
+                </div>
+                <div class="layui-inline" style="margin-bottom: 0;float: right">
+                    <button type="button" class="layui-btn" id="uploadPaymentData"><i class="layui-icon">&#xe67c;</i>导入人社数据
+                    </button>
+                    <button type="button" class="layui-btn" id="uploadAccountingData"><i class="layui-icon">&#xe67c;</i>导入税务数据
+                    </button>
+                    <button type="button" class="layui-btn layui-btn-sm" id="expertFile"><i class="layui-icon">&#xe601;</i>导出</button>
+                </div>
+                </div>
+        </form>
+    </div>
+    <div id="table">
+        <div class="table-responsive" style="z-index: 1;">
+            <table id="infoTable" style="min-width:100px;"></table>
+        </div>
+    </div>
+</div>
+
+<script src="${ctxPath}/static/gxsw/js/reconciliation.js"></script>
+
+<style>
+    .textOver {
+        height: 40px;
+        line-height: 40px;
+    }
+</style>
+@}

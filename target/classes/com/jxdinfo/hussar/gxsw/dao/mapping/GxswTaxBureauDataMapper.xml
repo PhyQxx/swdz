@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxdinfo.hussar.gxsw.dao.GxswTaxBureauDataMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.jxdinfo.hussar.gxsw.model.GxswTaxBureauData">
+        <result column="id" property="id"/>
+        <result column="social_credit_code" property="socialCreditCode" />
+        <result column="taxpayer_name" property="taxpayerName" />
+        <result column="tax_item" property="taxItem" />
+        <result column="tax_payment" property="taxPayment" />
+        <result column="startDate" property="startDate" />
+        <result column="endDate" property="endDate" />
+        <result column="tax_type" property="taxType" />
+        <result column="town" property="town" />
+        <result column="village" property="village" />
+        <result column="year" property="year" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+            social_credit_code AS socialCreditCode, taxpayer_name AS taxpayerName, tax_item AS taxItem, tax_payment AS taxPayment, startDate AS startDate, endDate AS endDate, tax_type AS taxType, town AS town, village AS village,year as year
+    </sql>
+
+    <!--用于获取所有缴费人员类型-->
+    <select id="getSpecificItem" resultType="map">
+        SELECT DISTINCT ifnull(tax_type,'') as item FROM gxsw_tax_bureau_data
+    </select>
+
+    <!--批量插入-->
+    <insert id="batchInsertAll" parameterType="java.util.List">
+        INSERT INTO gxsw_tax_bureau_data(id,social_credit_code,taxpayer_name,tax_item,tax_payment,
+        startDate,endDate,tax_type,town,village,year)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR},#{item.socialCreditCode,jdbcType=VARCHAR},#{item.taxpayerName,jdbcType=VARCHAR},#{item.taxItem,jdbcType=VARCHAR},
+            #{item.taxPayment,jdbcType=VARCHAR},#{item.startDate,jdbcType=VARCHAR},
+            #{item.endDate,jdbcType=VARCHAR},#{item.taxType,jdbcType=VARCHAR},
+            #{item.town,jdbcType=VARCHAR},#{item.village,jdbcType=VARCHAR},
+            #{item.year,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+    <!--用于获取异常数据总数-->
+    <select id="getCompareResultCount" parameterType="map" resultType="int">
+        SELECT COUNT(*) FROM
+        gxsw_error_data_temp AS temp
+        <where>
+            <if test="specificItem !='' and specificItem !=null ">
+                (temp.personnel_category =#{specificItem} or temp.tax_type=#{specificItem})
+            </if>
+            <if test="year!=null and year!='' ">
+                and (temp.year =#{year} or temp.year1=#{year})
+            </if>
+        </where>
+    </select>
+
+    <!--获取补缴人员总数-->
+    <select id="getBackPaymentCount" parameterType="map" resultType="int">
+        SELECT COUNT(*) FROM(
+        SELECT DISTINCT
+        a.social_security_number,
+        a.`name`,
+        a.start_date,
+        a.end_date,
+        a.personal_payment,
+        a.`year`,
+        b.social_credit_code,
+        b.taxpayer_name,
+        b.startDate,
+        b.endDate,
+        b.tax_payment,
+        b.`year` AS year1
+        FROM
+        (
+        SELECT
+        a.social_security_number,
+        a. NAME,
+        a.start_date,
+        a.end_date,
+        a.personal_payment,
+        a. YEAR
+        FROM
+        gxsw_social_security_data a,
+        (
+        SELECT
+        social_security_number,
+        COUNT(*)
+        FROM
+        gxsw_social_security_data
+        GROUP BY
+        social_security_number
+        HAVING
+        (count(*) > 1)
+        ) b
+        WHERE
+        a.social_security_number = b.social_security_number
+        ) a
+        LEFT JOIN (
+        SELECT
+        a.social_credit_code,
+        a.taxpayer_name,
+        a.startDate,
+        a.endDate,
+        a.tax_payment,
+        a. YEAR
+        FROM
+        (
+        gxsw_tax_bureau_data a,
+        (
+        SELECT
+        social_security_number,
+        COUNT(*)
+        FROM
+        gxsw_social_security_data
+        GROUP BY
+        social_security_number
+        HAVING
+        count(*) > 1
+        ) b
+        )
+        WHERE
+        (
+        a.social_credit_code = b.social_security_number
+        )
+        ) b ON a.social_security_number = b.social_credit_code
+        AND a.end_date = b.endDate
+        AND a.`year` = #{year})as temp
+    </select>
+
+
+
+    <!--用于获取异常数据列表-->
+    <select id="getCompareResultList"  resultType="java.util.LinkedHashMap">
+        SELECT
+        social_security_number,
+        `name`,
+        personal_payment,
+        personnel_category,
+        `year`,
+        social_credit_code,
+        taxpayer_name,
+        tax_payment,
+        tax_type,
+        year1
+        FROM
+        gxsw_error_data_temp AS temp
+        <where>
+            <if test="specificItem !='' and specificItem !=null ">
+                (temp.personnel_category =#{specificItem} or temp.tax_type=#{specificItem})
+            </if>
+            <if test="year !=null and year!='' ">
+                and (temp.year =#{year} or temp.year1=#{year})
+            </if>
+        </where>
+        <if test="startNumber !=null and pageSize!=null">
+            limit #{startNumber},#{pageSize}
+        </if>
+    </select>
+
+    <!--查询补缴人员数据-->
+    <select id="getBackPaymentList" parameterType="map" resultType="java.util.LinkedHashMap">
+        SELECT DISTINCT
+        a.social_security_number,
+        a.`name`,
+        a.start_date,
+        a.end_date,
+        a.personal_payment,
+        a.`year`,
+        b.social_credit_code,
+        b.taxpayer_name,
+        b.startDate,
+        b.endDate,
+        b.tax_payment,
+        b.`year` AS year1
+        FROM
+        (
+        SELECT
+        a.social_security_number,
+        a. `name`,
+        a.start_date,
+        a.end_date,
+        a.personal_payment,
+        a. `year`
+        FROM
+        gxsw_social_security_data a,
+        (
+        SELECT
+        social_security_number,
+        COUNT(*)
+        FROM
+        gxsw_social_security_data
+        GROUP BY
+        social_security_number
+        HAVING
+        (count(*) > 1)
+        ) b
+        WHERE
+        a.social_security_number = b.social_security_number
+        ) a
+        LEFT JOIN (
+        SELECT
+        a.social_credit_code,
+        a.taxpayer_name,
+        a.startDate,
+        a.endDate,
+        a.tax_payment,
+        a. YEAR
+        FROM
+        (
+        gxsw_tax_bureau_data a,
+        (
+        SELECT
+        social_security_number,
+        COUNT(*)
+        FROM
+        gxsw_social_security_data
+        GROUP BY
+        social_security_number
+        HAVING
+        count(*) > 1
+        ) b
+        )
+        WHERE
+        (
+        a.social_credit_code = b.social_security_number
+        )
+        ) b ON a.social_security_number = b.social_credit_code
+        AND a.end_date = b.endDate
+        AND a.`year` = #{year}
+        <if test="startNumber !=null and pageSize!=null">
+            limit #{startNumber},#{pageSize}
+        </if>
+    </select>
+
+
+    <!--删除gxsw_tax_bureau_data数据-->
+    <delete id="deleteSocialData" parameterType="String">
+        DELETE FROM gxsw_social_security_data where year=#{year}
+    </delete>
+
+    <!--清空gxsw_tax_bureau_data数据表-->
+    <delete id="deleteTaxData" parameterType="String">
+        DELETE FROM gxsw_tax_bureau_data where year = #{year}
+    </delete>
+
+
+    <insert id="saveErrorData" parameterType="map">
+        INSERT INTO gxsw_error_data_temp (
+        social_security_number,
+        `name`,
+        personal_payment,
+        personnel_category,
+        `year`,
+        social_credit_code,
+        taxpayer_name,
+        tax_payment,
+        tax_type,
+        year1
+        ) SELECT DISTINCT
+        social_security_number,
+        NAME,
+        personal_payment,
+        personnel_category,
+        `year`,
+        social_credit_code,
+        taxpayer_name,
+        tax_payment,
+        tax_type,
+        year1
+        FROM
+        (
+        SELECT
+        a.social_security_number,
+        a. NAME,
+        a.personal_payment,
+        a.personnel_category,
+        a.`year`,
+        b.social_credit_code,
+        b.taxpayer_name,
+        b.tax_payment,
+        b.tax_type,
+        b.`year` AS year1
+        FROM
+        gxsw_social_security_data a,
+        gxsw_tax_bureau_data b
+        WHERE
+        a.social_security_number = b.social_credit_code
+        AND a.`year` = b.`year`
+        AND NOT EXISTS (
+        SELECT
+        1
+        FROM
+        gxsw_tax_bureau_data c
+        WHERE
+        a.`name` = c.taxpayer_name
+        AND a.personal_payment = c.tax_payment
+        AND a.personnel_category = c.tax_type
+        AND a.social_security_number = c.social_credit_code
+        AND a.`year` = c.`year`
+        )
+        AND a.`year` = #{year}
+        UNION ALL
+        SELECT
+        a.social_security_number,
+        a.`name`,
+        a.personal_payment,
+        a.personnel_category,
+        a.`year`,
+        '' AS social_credit_code,
+        '' AS taxpayer_name,
+        '' AS tax_payment,
+        '' AS tax_type,
+        '' AS `year`
+        FROM
+        gxsw_social_security_data a
+        WHERE
+        NOT EXISTS (
+        SELECT
+        1
+        FROM
+        gxsw_tax_bureau_data b
+        WHERE
+        a.social_security_number = b.social_credit_code
+        AND a.`year` = b.`year`
+        )
+        AND a.`year` = #{year}
+        UNION ALL
+        SELECT
+        '' AS social_security_number,
+        '' AS `name`,
+        '' AS personal_payment,
+        '' AS personnel_category,
+        '' AS `year`,
+        a.social_credit_code,
+        a.taxpayer_name,
+        a.tax_payment,
+        a.tax_type,
+        a.`year`
+        FROM
+        gxsw_tax_bureau_data a
+        WHERE
+        NOT EXISTS (
+        SELECT
+        1
+        FROM
+        gxsw_social_security_data b
+        WHERE
+        a.social_credit_code = b.social_security_number
+        AND a.`year` = b.`year`
+        )
+        AND a.`year` = #{year}
+        ) AS temp
+        WHERE
+        NOT EXISTS (
+        SELECT
+        1
+        FROM
+        (
+        SELECT
+        YEAR,
+        social_security_number,
+        COUNT(*)
+        FROM
+        gxsw_social_security_data
+        GROUP BY
+        social_security_number,
+        YEAR
+        HAVING
+        count(*) > 1
+        ) r
+        WHERE
+        r.social_security_number = temp.social_security_number
+        AND r. YEAR = temp. YEAR
+        )
+    </insert>
+    <delete id="deleteErrorData" parameterType="map">
+        delete from gxsw_error_data_temp where year=#{year} or year1=#{year}
+    </delete>
+</mapper>

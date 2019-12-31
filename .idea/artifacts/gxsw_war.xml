@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="gxsw:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="gxsw-1.6.0.war">
+      <element id="artifact" artifact-name="gxsw:war exploded" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxdinfo.hussar.gxsw.dao.GxswSocialSecurityDataMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.jxdinfo.hussar.gxsw.model.GxswSocialSecurityData">
+        <id column="social_security_number" property="socialSecurityNumber" />
+        <result column="name" property="name" />
+        <result column="insured_group" property="insuredGroup" />
+        <result column="personnel_category" property="personnelCategory" />
+        <result column="declaration_category" property="declarationCategory" />
+        <result column="start_date" property="startDate" />
+        <result column="end_date" property="endDate" />
+        <result column="payment_date" property="paymentDate" />
+        <result column="personal_payment" property="personalPayment" />
+        <result column="town" property="town" />
+        <result column="village" property="village" />
+        <result column="year" property="year" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        social_security_number AS socialSecurityNumber, name AS name, insured_group AS insuredGroup, personnel_category AS personnelCategory,
+         declaration_category AS declarationCategory, start_date AS startDate, end_date AS endDate, payment_date AS paymentDate,
+          personal_payment AS personalPayment,town AS town, village AS village, year AS year
+    </sql>
+
+    <!--批量插入-->
+    <insert id="batchInsertAll" parameterType="java.util.List">
+        INSERT INTO gxsw_social_security_data(id,social_security_number,name,insured_group,personnel_category,
+        declaration_category,start_date,end_date,payment_date,personal_payment,town,village,year)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=VARCHAR},#{item.socialSecurityNumber,jdbcType=VARCHAR},#{item.name,jdbcType=VARCHAR},#{item.insuredGroup,jdbcType=VARCHAR},
+            #{item.personnelCategory,jdbcType=VARCHAR},#{item.declarationCategory,jdbcType=VARCHAR},#{item.startDate,jdbcType=VARCHAR},
+            #{item.endDate,jdbcType=VARCHAR},#{item.paymentDate,jdbcType=VARCHAR},#{item.personalPayment,jdbcType=VARCHAR},
+            #{item.town,jdbcType=VARCHAR},#{item.village,jdbcType=VARCHAR},#{item.year,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+</mapper>
