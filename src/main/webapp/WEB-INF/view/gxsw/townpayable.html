@@ -1,0 +1,64 @@
+@layout("/common/layout.html",{title:'管理'}){
+<link rel="stylesheet" href="${ctxPath}/static/gxsw/css/same.css">
+<link rel="stylesheet" href="${ctxPath}/static/gxsw/css/index.css">
+<input id="year" type="hidden" value="">
+<div class="container" style="padding:0;width: 100%;background-color:#fff;">
+    <div id="table">
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <div class="layui-inline" style="margin-bottom: 0">
+
+                    <label class="layui-form-label">选择年份:</label>
+                    <div class="layui-input-inline">
+                        <select id="sel" name="sel" lay-filter="sel"></select>
+                    </div>
+                </div>
+
+                <button type="button" class="layui-btn" id="uploadDetailData"><i class="layui-icon">&#xe67c;</i>导入缴费数据
+                </button>
+                <button style="margin-left: 20px" type="button" class="layui-btn" id="submit"><i class="layui-icon">&#xe615;</i>查 询</button>
+                <button style="margin-left: 20px" type="button" class="layui-btn" id="export"><i class="layui-icon">&#xe601;</i>未缴人员导出</button>
+                <button style="margin-left: 20px" type="button" class="layui-btn" id="exportInfo"><i class="layui-icon">&#xe601;</i>统计信息导出</button>
+
+            </div>
+
+        </form>
+        <div class="table-responsive" style="z-index: 1;">
+            <div class="bootstrap-table">
+
+                <table id="infoTable" style="min-width:100px;">
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${ctxPath}/static/gxsw/js/payableInfo.js"></script>
+<script type="text/javascript">
+
+</script>
+<style>
+    .textOver {
+        height: 40px;
+        line-height: 40px;
+
+    }
+    tr td:first-child{
+        text-decoration: underline;
+
+    }
+
+    #infoTable tr:hover {
+        color: #1abc9c;
+        cursor: pointer;
+    }
+
+    #infoTable thead tr:first-child:hover {
+        color: #333333;
+        cursor: auto;
+    }
+    .fixed-table-footer table tbody tr td:first-child{
+        text-decoration:none;
+    }
+</style>
+@}
+

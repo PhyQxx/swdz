@@ -1,0 +1,74 @@
+@layout("/common/layout.html",{title:'详情'}){
+<div class="weadmin-body-1 layui-form" style="padding-bottom:50px;">
+            <div class="layui-form-item">
+                    <label class="layui-form-label">：</label>
+                    <div class="layui-input-inline">
+                        <input id="identityCard" name="identityCard" class="layui-input"
+                               placeholder="请输入" value="${item.identityCard}">
+                    </div>
+             </div>
+            <div class="layui-form-item">
+                    <label class="layui-form-label">：</label>
+                    <div class="layui-input-inline">
+                        <input id="taxpayerName" name="taxpayerName" class="layui-input"
+                               placeholder="请输入" value="${item.taxpayerName}">
+                    </div>
+             </div>
+            <div class="layui-form-item">
+                    <label class="layui-form-label">：</label>
+                    <div class="layui-input-inline">
+                        <input id="taxpayerItem" name="taxpayerItem" class="layui-input"
+                               placeholder="请输入" value="${item.taxpayerItem}">
+                    </div>
+             </div>
+            <div class="layui-form-item">
+                    <label class="layui-form-label">：</label>
+                    <div class="layui-input-inline">
+                        <input id="taxpayerMoney" name="taxpayerMoney" class="layui-input"
+                               placeholder="请输入" value="${item.taxpayerMoney}">
+                    </div>
+             </div>
+            <div class="layui-form-item">
+                    <label class="layui-form-label">：</label>
+                    <div class="layui-input-inline">
+                        <input id="startTime" name="startTime" class="layui-input"
+                               placeholder="请输入" value="${item.startTime}">
+                    </div>
+             </div>
+            <div class="layui-form-item">
+                    <label class="layui-form-label">：</label>
+                    <div class="layui-input-inline">
+                        <input id="endTime" name="endTime" class="layui-input"
+                               placeholder="请输入" value="${item.endTime}">
+                    </div>
+             </div>
+            <div class="layui-form-item">
+                    <label class="layui-form-label">：</label>
+                    <div class="layui-input-inline">
+                        <input id="taxpayerType" name="taxpayerType" class="layui-input"
+                               placeholder="请输入" value="${item.taxpayerType}">
+                    </div>
+             </div>
+            <div class="layui-form-item">
+                    <label class="layui-form-label">：</label>
+                    <div class="layui-input-inline">
+                        <input id="town" name="town" class="layui-input"
+                               placeholder="请输入" value="${item.town}">
+                    </div>
+             </div>
+            <div class="layui-form-item">
+                    <label class="layui-form-label">：</label>
+                    <div class="layui-input-inline">
+                        <input id="village" name="village" class="layui-input"
+                               placeholder="请输入" value="${item.village}">
+                    </div>
+             </div>
+    <div class="layerBtnCenter btn-box btn-box-1">
+        <button type="button" name="取消" class="layui-btn btn-close" id="cancel"
+        onclick="GxswJcsjInfoInfoDlg.close()"><i class="iconfont">&#x1006;</i>取消</button>
+        <button type="button" name="提交" class="layui-btn btn-save" id="ensure"
+        onclick="GxswJcsjInfoInfoDlg.editSubmit()"><i class="iconfont">&#xe009;</i>保存</button>
+    </div>
+</div>
+<script src="${ctxPath}/static/gxsw/gxswJcsjInfo/gxswJcsjInfo_info.js"></script>
+@}

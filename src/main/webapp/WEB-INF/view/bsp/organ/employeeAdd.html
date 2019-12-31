@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>新增人员</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!--外部css和js开始-->
+  @include("/common/plugins.html"){}
+  <!--外部css和js结束-->
+	<style>
+		.layui-form{width: 80%; margin: 30px auto 0;}
+		.layui-form-label{position: relative}
+		.layui-form-label>span{ position: absolute; left: 0;}
+		.layui-input-box{text-align: center}
+		.layui-form-select dl { max-height:260px; }
+	</style>
+</head>
+<body>
+<div class="weadmin-body">
+	<div class="layui-elem-quote">
+		  <label>人员新增</label>
+	</div>
+	<form class="layui-form" action="">
+		<input type="hidden" name="struType" id="struType" value="${orgType}">
+		<input type="hidden" name="organType" id="organType" value="${orgType}">
+       	<input type="hidden" name="struLevel" id="struLevel" value="${struLevel}">
+       	<input type="hidden" name="organId" id="organId" >
+       	<input type="hidden" name="struOrder" id="struOrder" value="${childNum}">
+       	<input type="hidden" name="parentTypeCode" id="parentTypeCode" value="${parentTypeCode}">
+       	<input type="hidden" name="parentId" id="parentId" value="${orgParentId}">
+	  <div class="layui-form-item">
+	    <label class="layui-form-label">上级名称：</label>
+	    <div class="layui-input-block">
+	      <input id="parentName" type="text" name="title" lay-verify="title" value="${orgParentName}" disabled="disabled" autocomplete="off" placeholder="请输入标题" class="layui-input">
+	    </div>
+	  </div>
+	  <div class="layui-form-item">
+	    <label class="layui-form-label"><span style="color:red">*&nbsp;</span>人员编码：</label>
+	    <div class="layui-input-block">
+	      <input type="text" name="organCode" maxlength="32" id="organCode" lay-verify="required" disabled="disabled" value="${currentCode}" placeholder="请输入人员编码" autocomplete="off" class="layui-input">
+	    </div>
+	  </div>
+	  <div class="layui-form-item">
+	    <label class="layui-form-label"><span style="color:red">*&nbsp;</span>人员名称：</label>
+	    <div class="layui-input-block">
+	      <input type="text" name="organName" maxlength="40" id="organName" lay-verify="required" placeholder="请输入人员名称" autocomplete="off" class="layui-input">
+	    </div>
+	  </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">职务：</label>
+            <div class="layui-input-block">
+                <select id="staffPosition" name="staffPosition" lay-search="">
+                    <option value="">请选择</option>
+                    @for(ope in operation!){
+                    <option value="${ope.VALUE}">${ope.LABEL}</option>
+                    @}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">生效日期：</label>
+            <div class="layui-input-block">
+                <input type="text" name="beginDate" readonly="readonly" id="beginDate"  placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">失效日期：</label>
+            <div class="layui-input-block">
+                <input type="text" name="endDate" readonly="readonly" id="endDate" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <!-- ------------------------------------------人员信息表sys_staff字段------------------------------------------------->
+        <div class="layui-form-item">
+            <label class="layui-form-label">性别：</label>
+            <div class="layui-input-block">
+                <hussar:radio name="sex" dicType="sex"></hussar:radio>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">出生日期：</label>
+            <div class="layui-input-block">
+                <input type="text" name="birthday" readonly="readonly" id="birthday" placeholder="请输入出生日期" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">身份证号：</label>
+            <div class="layui-input-block">
+                <input type="text" name="idcard" id="idcard" placeholder="请输入身份证号" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">家庭住址：</label>
+            <div class="layui-input-block">
+                <input type="text" name="address" id="address" placeholder="请输入家庭住址" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">工号：</label>
+            <div class="layui-input-block">
+                <input type="text" name="workId" id="workId" placeholder="请输入工号" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">入职日期：</label>
+            <div class="layui-input-block">
+                <input type="text" name="workDate" readonly="readonly" id="workDate" placeholder="请输入入职日期" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">毕业院校：</label>
+            <div class="layui-input-block">
+                <input type="text" name="graduateSchool" id="graduateSchool" placeholder="请输入毕业院校" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">毕业日期：</label>
+            <div class="layui-input-block">
+                <input type="text" name="graduateDate" readonly="readonly" id="graduateDate" placeholder="请输入毕业日期" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <!-- ------------------------------------------人员信息表sys_staff字段------------------------------------------------->
+
+	    @if(shiro.hasPermission("employee:save")){
+	  <div class="layui-form-item">
+	    <div class="layui-input-box">
+	      <button type="reset" class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe00A;</i>重置</button>
+	      <button class="layui-btn" lay-submit="" lay-filter="employeeAdd"><i class="iconfont">&#xe009;</i>保存</button>
+	    </div>
+	  </div>
+	  @}
+	</form>
+	</div>     
+<script src="${ctxPath}/static/bsp/organ/js/employeeAdd.js"></script>
+</body>
+<link rel="stylesheet" href="${ctxPath}/static/css/bsp/project_ext.css">
+</html>
