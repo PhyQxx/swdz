@@ -8,10 +8,10 @@
         <version>2.1.5.RELEASE</version>
     </parent>
     <groupId>com.jxdinfo.hussar</groupId>
-    <artifactId>gxsw</artifactId>
+    <artifactId>swdz</artifactId>
     <version>1.6.0</version>
-    <name>gxsw</name>
-    <description>gxsw</description>
+    <name>swdz</name>
+    <description>swdz</description>
     <packaging>war</packaging>
     <properties>
         <java.version>1.8</java.version>

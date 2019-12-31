@@ -4,7 +4,7 @@
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="gxsw" />
+          <element id="module-output" name="swdz" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: com.jxdinfo.hussar:hussar-base:1.6.0" />
@@ -249,7 +249,7 @@
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/target/gxsw-1.6.0/META-INF/MANIFEST.MF" />
       </element>
-      <element id="javaee-facet-resources" facet="gxsw/web/Web" />
+      <element id="javaee-facet-resources" facet="swdz/web/Web" />
     </root>
   </artifact>
 </component>
