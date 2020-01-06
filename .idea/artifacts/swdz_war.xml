@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="swdz:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="swdz-1.6.0.war">
+      <element id="artifact" artifact-name="swdz:war exploded" />
+    </root>
+  </artifact>
+</component>
