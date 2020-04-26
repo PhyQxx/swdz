@@ -6,17 +6,17 @@
                 <div class="layui-form-item">
                     <div class="layui-inline" style="margin-bottom: 0">
                         <div class="layui-inline" style="float: left">
-                            <label class="layui-form-label" style="width: 70px!important;padding-right: 0px!important;padding-left: 0px!important">身份证号:</label>
+                            <label class="layui-form-label" style="width: 7rem!important;padding-right: 0px!important;padding-left: 0px!important">身份证号:</label>
                             <div class="layui-input-inline" style="width: 160px!important;">
                                 <input type="text"  id="idcard" name="title" required  lay-verify="required" placeholder="请输入身份证号" autocomplete="off" class="layui-input">
                             </div>
 
-                            <label class="layui-form-label" style="width:40px!important ;padding-right: 0px!important;padding-left: 0px!important">姓名:</label>
+                            <label class="layui-form-label" style="width:4rem!important ;padding-right: 0px!important;padding-left: 0px!important">姓名:</label>
                             <div class="layui-input-inline"style="width: 100px!important;">
                                 <input type="text"  id="username" name="title" required  lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input">
                             </div>
-                            <label class="layui-form-label" style="width:65px!important;padding:0 !important;">街道乡镇:</label>
-                            <div class="layui-input-inline" style="width: 110px!important;">
+                            <label class="layui-form-label" style="width:7rem!important;padding:0 !important;">街道乡镇:</label>
+                            <div class="layui-input-inline" style="width: 11rem!important;">
                                 <select name="quiz1" lay-filter="town" id="town">
                                     <option value="">请选择镇</option>
                                     @for(town in towns){
@@ -24,8 +24,8 @@
                                     @}
                                 </select>
                             </div>
-                            <label class="layui-form-label" style="width:70px!important;padding:0 !important;">社区/村组:</label>
-                            <div class="layui-input-inline" style="width: 110px!important;">
+                            <label class="layui-form-label" style="width:8rem!important;padding:0 !important;">社区/村组:</label>
+                            <div class="layui-input-inline" style="width: 11rem!important;">
                                 <select name="quiz2" id="allVillage" lay-filter="village">
                                     <option value="">请选择村</option>
                                 </select>
@@ -34,7 +34,7 @@
                         </div>
                         <div class="layui-inline">
                             <button type="button" class="layui-btn" id="revert"><i class="layui-icon">&#xe669;</i>重 置</button>
-                            <button type="button" class="layui-btn" id="uploadjcsj"style="width:130px"><i class="layui-icon">&#xe67c;</i>基础数据导入</button>
+                            <button type="button" class="layui-btn" id="uploadjcsj"style="width:130px padding: 0 1rem;"><i class="layui-icon">&#xe67c;</i>基础数据导入</button>
                         </div>
                     </div>
                 </div>

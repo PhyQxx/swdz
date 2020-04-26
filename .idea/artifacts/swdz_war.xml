@@ -1,6 +1,12 @@
 <component name="ArtifactManager">
   <artifact type="war" name="swdz:war">
     <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>swdz</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
     <root id="archive" name="swdz-1.6.0.war">
       <element id="artifact" artifact-name="swdz:war exploded" />
     </root>

@@ -1,6 +1,13 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="swdz:war exploded">
     <output-path>$PROJECT_DIR$/target/swdz-1.6.0</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <exploded>true</exploded>
+        <module>swdz</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
@@ -130,8 +137,6 @@
           <element id="library" level="project" name="Maven: org.activiti:activiti-spring-boot-starter-jpa:5.22.0" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-data-jpa:2.1.5.RELEASE" />
           <element id="library" level="project" name="Maven: javax.transaction:javax.transaction-api:1.3" />
-          <element id="library" level="project" name="Maven: javax.xml.bind:jaxb-api:2.3.1" />
-          <element id="library" level="project" name="Maven: javax.activation:javax.activation-api:1.2.0" />
           <element id="library" level="project" name="Maven: org.hibernate:hibernate-core:5.3.10.Final" />
           <element id="library" level="project" name="Maven: javax.persistence:javax.persistence-api:2.2" />
           <element id="library" level="project" name="Maven: antlr:antlr:2.7.7" />
@@ -226,6 +231,8 @@
           <element id="library" level="project" name="Maven: org.hamcrest:hamcrest-core:1.3" />
           <element id="library" level="project" name="Maven: org.springframework:spring-core:5.1.7.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-jcl:5.1.7.RELEASE" />
+          <element id="library" level="project" name="Maven: javax.xml.bind:jaxb-api:2.3.1" />
+          <element id="library" level="project" name="Maven: javax.activation:javax.activation-api:1.2.0" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter:2.1.5.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot:2.1.5.RELEASE" />
           <element id="library" level="project" name="Maven: javax.annotation:javax.annotation-api:1.3.2" />
