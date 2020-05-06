@@ -256,7 +256,6 @@ public class GxswPayableInfoServiceImpl implements GxswPayableInfoService {
         long startTime = System.currentTimeMillis();
         InputStream inputStream=null;
         try{
-            //新增的多个map
             List<LevyDetails> levyDetails = new ArrayList<>();
             //转换为输入流
             inputStream = file.getInputStream();
@@ -278,8 +277,20 @@ public class GxswPayableInfoServiceImpl implements GxswPayableInfoService {
                 levyDetails.add(levyDetail);
             }
             long startTime2 = System.currentTimeMillis();
+            int size = levyDetails.size();
+            int index = 0;
+            while(true) {
+                if(index+3000>=size) {
+                    levyDetailsMapper.insertSelective(levyDetails.subList(index, size-1));
+                    break;
+                }else {
+                    levyDetailsMapper.insertSelective(levyDetails.subList(index, index+3000));
+                    index = index+3000;
+                }
 
-            count = levyDetailsMapper.insertSelective(levyDetails);
+            }
+            count = size;
+            /**count = levyDetailsMapper.insertSelective(levyDetails);*/
             long endTime2 = System.currentTimeMillis();
             //执行插入耗时             =============57s左右
             long time2 = endTime2-startTime2;
