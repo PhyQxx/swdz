@@ -277,6 +277,8 @@ public class GxswPayableInfoServiceImpl implements GxswPayableInfoService {
                 levyDetails.add(levyDetail);
             }
             long startTime2 = System.currentTimeMillis();
+            //插入数据库
+            count = levyDetailsMapper.insertSelective(levyDetails);
             int size = levyDetails.size();
             int index = 0;
             while(true) {
@@ -290,7 +292,6 @@ public class GxswPayableInfoServiceImpl implements GxswPayableInfoService {
 
             }
             count = size;
-            /**count = levyDetailsMapper.insertSelective(levyDetails);*/
             long endTime2 = System.currentTimeMillis();
             //执行插入耗时             =============57s左右
             long time2 = endTime2-startTime2;
